@@ -84,6 +84,7 @@ public class ConfigConverter extends BaseActivity implements FileSelectCallback,
     private String mEmbeddedPwFile;
     private Vector<String> mLogEntries = new Vector<>();
     private Uri mSourceUri;
+    private boolean mForce = false;
     private EditText mProfilename;
     private AsyncTask<Void, Void, Integer> mImportTask;
     private LinearLayout mLogLayout;
@@ -244,6 +245,9 @@ public class ConfigConverter extends BaseActivity implements FileSelectCallback,
         vpl.addProfile(mResult);
         vpl.saveProfile(this, mResult);
         vpl.saveProfileList(this);
+        if (null != mSourceUri) {
+            result.setData(mSourceUri);
+        }
         result.putExtra(VpnProfile.EXTRA_PROFILEUUID, mResult.getUUID().toString());
         setResult(Activity.RESULT_OK, result);
         finish();
@@ -657,6 +661,7 @@ public class ConfigConverter extends BaseActivity implements FileSelectCallback,
         final Uri data = intent.getData();
         if (data != null) {
             mSourceUri = data;
+            mForce = intent.getBooleanExtra("force", false);
             doImportUri(data);
         }
     }
@@ -754,6 +759,10 @@ public class ConfigConverter extends BaseActivity implements FileSelectCallback,
                     mProfilename.setText(mResult.getName());
 
                     log(R.string.import_done);
+
+                    if (mForce) {
+                        userActionSaveProfile();
+                    }
                 }
             }
         }.execute();

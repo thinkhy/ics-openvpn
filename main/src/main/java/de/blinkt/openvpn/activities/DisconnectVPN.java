@@ -31,6 +31,14 @@ public class DisconnectVPN extends Activity implements DialogInterface.OnClickLi
             // We've bound to LocalService, cast the IBinder and get LocalService instance
             OpenVPNService.LocalBinder binder = (OpenVPNService.LocalBinder) service;
             mService = binder.getService();
+
+            Intent disconnectIntent = getIntent();
+            if (null != disconnectIntent && disconnectIntent.getBooleanExtra("force", false)) {
+                stopVpn();
+                finish();
+            } else {
+                showDisconnectDialog();
+            }
         }
 
         @Override
@@ -46,7 +54,6 @@ public class DisconnectVPN extends Activity implements DialogInterface.OnClickLi
         Intent intent = new Intent(this, OpenVPNService.class);
         intent.setAction(OpenVPNService.START_SERVICE);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        showDisconnectDialog();
     }
 
     @Override
@@ -71,9 +78,7 @@ public class DisconnectVPN extends Activity implements DialogInterface.OnClickLi
     public void onClick(DialogInterface dialog, int which) {
         VpnProfile lastVPN = ProfileManager.getLastConnectedVpn();
         if (which == DialogInterface.BUTTON_POSITIVE) {
-            ProfileManager.setConntectedVpnProfileDisconnected(this);
-            if (mService != null && mService.getManagement() != null)
-                mService.getManagement().stopVPN(false);
+            stopVpn();
         } else if (which == DialogInterface.BUTTON_NEUTRAL && lastVPN !=null) {
             Intent intent = new Intent(this, LaunchVPN.class);
             intent.putExtra(LaunchVPN.EXTRA_KEY, lastVPN.getUUID().toString());
@@ -86,5 +91,12 @@ public class DisconnectVPN extends Activity implements DialogInterface.OnClickLi
     @Override
     public void onCancel(DialogInterface dialog) {
         finish();
+    }
+
+
+    private void stopVpn() {
+        ProfileManager.setConntectedVpnProfileDisconnected(this);
+        if (mService != null && mService.getManagement() != null)
+            mService.getManagement().stopVPN(false);
     }
 }
