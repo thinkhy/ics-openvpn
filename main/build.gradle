@@ -3,9 +3,9 @@
  * Distributed under the GNU GPL v2 with additional terms. For full terms see the file doc/LICENSE.txt
  */
 
-import com.android.builder.model.ProductFlavor
+//import com.android.builder.model.ProductFlavor
 
-apply plugin: 'com.android.application'
+// apply plugin: 'com.android.library'
 
 repositories {
     jcenter()
@@ -57,63 +57,63 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }*/
 
-    signingConfigs {
-        release
-    }
+//    signingConfigs {
+//        release
+//    }
 
     lintOptions {
         enable 'BackButton', 'EasterEgg', 'StopShip', 'IconExpectedSize', 'GradleDynamicVersion', 'NewerVersionAvailable'
         disable 'MissingTranslation'
     }
 
-    buildTypes {
-        release {
-            signingConfig signingConfigs.release
-        }
-    }
+//    buildTypes {
+//        release {
+//            signingConfig signingConfigs.release
+//        }
+//    }
 
 
-    productFlavors {
-      //ovpn3
-
-      normal
-
-
-        modern {
-            minSdkVersion 21
-        }
-      /*                   
-      x86 {
-            versionCode Integer.parseInt("6" + defaultConfig.versionCode)
-            ndk {
-                abiFilter "x86"
-            }
-        }
-
-        mips {
-            versionCode Integer.parseInt("4" + defaultConfig.versionCode)
-            ndk {
-                abiFilter "mips"
-            }
-        }
-
-        armv7 {
-            versionCode Integer.parseInt("2" + defaultConfig.versionCode)
-            ndk {
-               abiFilter "armeabi-v7a"
-            }
-        }
-
-        arm {
-            versionCode Integer.parseInt("1" + defaultConfig.versionCode)
-            ndk {
-                abiFilter "armeabi"
-            }
-        }
-
-        fat
-        */
-    }
+//    productFlavors {
+//      //ovpn3
+//
+//      normal
+//
+//
+//        modern {
+//            minSdkVersion 21
+//        }
+//      /*
+//      x86 {
+//            versionCode Integer.parseInt("6" + defaultConfig.versionCode)
+//            ndk {
+//                abiFilter "x86"
+//            }
+//        }
+//
+//        mips {
+//            versionCode Integer.parseInt("4" + defaultConfig.versionCode)
+//            ndk {
+//                abiFilter "mips"
+//            }
+//        }
+//
+//        armv7 {
+//            versionCode Integer.parseInt("2" + defaultConfig.versionCode)
+//            ndk {
+//               abiFilter "armeabi-v7a"
+//            }
+//        }
+//
+//        arm {
+//            versionCode Integer.parseInt("1" + defaultConfig.versionCode)
+//            ndk {
+//                abiFilter "armeabi"
+//            }
+//        }
+//
+//        fat
+//        */
+//    }
 
 
 }
@@ -121,14 +121,14 @@ android {
 
 
 // ~/.gradle/gradle.properties
-if (project.hasProperty('keystoreFile') &&
-        project.hasProperty('keystorePassword') &&
-        project.hasProperty('keystoreAliasPassword')) {
-    android.signingConfigs.release.storeFile = file(keystoreFile)
-    android.signingConfigs.release.storePassword = keystorePassword
-    android.signingConfigs.release.keyPassword = keystoreAliasPassword
-    android.signingConfigs.release.keyAlias = keystoreAlias
-}
+//if (project.hasProperty('keystoreFile') &&
+//        project.hasProperty('keystorePassword') &&
+//        project.hasProperty('keystoreAliasPassword')) {
+//    android.signingConfigs.release.storeFile = file(keystoreFile)
+//    android.signingConfigs.release.storePassword = keystorePassword
+//    android.signingConfigs.release.keyPassword = keystoreAliasPassword
+//    android.signingConfigs.release.keyAlias = keystoreAlias
+//}
 //else {
 //    android.buildTypes.release.signingConfig = null
 //}

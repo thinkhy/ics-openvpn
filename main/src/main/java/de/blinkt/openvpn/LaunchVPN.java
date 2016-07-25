@@ -40,7 +40,7 @@ import de.blinkt.openvpn.core.VpnStatus.ConnectionStatus;
  * the user installs a shortcut, an activity within your application
  * generates the actual shortcut and returns it to the launcher, where it
  * is shown to the user as an icon.
- * <p/>
+ * <p/>`
  * 2. Any time the user clicks on an installed shortcut, an intent is sent.
  * Typically this would then be handled as necessary by an activity within
  * your application.
