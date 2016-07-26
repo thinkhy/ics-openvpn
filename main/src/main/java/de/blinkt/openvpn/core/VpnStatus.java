@@ -9,6 +9,8 @@ import android.content.Context;
 import android.os.Build;
 import android.os.HandlerThread;
 import android.os.Message;
+import android.util.Log;
+import de.blinkt.openvpn.R;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -17,10 +19,9 @@ import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Vector;
 
-import de.blinkt.openvpn.R;
-
 public class VpnStatus {
 
+    static final String TAG = VpnStatus.class.getName();
 
     public static LinkedList<LogItem> logbuffer;
 
@@ -390,6 +391,8 @@ public class VpnStatus {
 
 
     synchronized static void newLogItem(LogItem logItem, boolean cachedLine) {
+        Log.i(TAG, logItem.toString());
+
         if (cachedLine) {
             logbuffer.addFirst(logItem);
         } else {

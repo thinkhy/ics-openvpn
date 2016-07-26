@@ -1004,6 +1004,10 @@ public class OpenVPNService extends VpnService implements StateListener, Callbac
         }
     }
 
+    public VpnProfile getProfile() {
+        return mProfile;
+    }
+
     public class LocalBinder extends Binder {
         public OpenVPNService getService() {
             // Return this instance of LocalService so clients can call public methods

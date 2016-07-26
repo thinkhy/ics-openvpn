@@ -214,7 +214,7 @@ public class OpenVpnManagementThread implements Runnable, OpenVPNManagement {
 
 
     private void processCommand(String command) {
-        //Log.i(TAG, "Line from managment" + command);
+        Log.i(TAG, "Line from managment" + command);
 
 
         if (command.startsWith(">") && command.contains(":")) {
@@ -322,7 +322,14 @@ public class OpenVpnManagementThread implements Runnable, OpenVPNManagement {
     }
 
     private void handleHold(String argument) {
-        int waittime = Integer.parseInt(argument.split(":")[1]);
+        String[] parts = argument.split(":");
+        int waittime;
+        if (1 < parts.length) {
+            waittime = Integer.parseInt(parts[1]);
+        } else {
+            // FIXME
+            waittime = 0;
+        }
         if (shouldBeRunning()) {
             if (waittime > 1)
                 VpnStatus.updateStateString("CONNECTRETRY", String.valueOf(waittime),

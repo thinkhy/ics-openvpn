@@ -15,11 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -121,6 +117,8 @@ public class OpenVPNThread implements Runnable {
     }
 
     private void startOpenVPNThreadArgs(String[] argv) {
+        Log.i(TAG, "startOpenVPNThreadArgs(" + Arrays.toString(argv) + ")");
+
         LinkedList<String> argvlist = new LinkedList<String>();
 
         Collections.addAll(argvlist, argv);
@@ -184,6 +182,7 @@ public class OpenVPNThread implements Runnable {
 
 
         } catch (IOException e) {
+            Log.e(TAG, "startOpenVPNThreadArgs(" + Arrays.toString(argv) + ")", e);
             VpnStatus.logException("Error reading from output of OpenVPN process", e);
             stopProcess();
         }

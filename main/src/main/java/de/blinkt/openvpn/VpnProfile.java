@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Base64;
 
+import android.util.Log;
 import org.spongycastle.util.io.pem.PemObject;
 import org.spongycastle.util.io.pem.PemWriter;
 
@@ -61,6 +62,9 @@ public class VpnProfile implements Serializable, Cloneable {
     // the profile loading depends on it being here
     // The Serializable documentation mentions that class name change are possible
     // but the how is unclear
+
+    static final String TAG = VpnProfile.class.getName();
+
     //
     transient public static final long MAX_EMBED_FILE_SIZE = 2048 * 1024; // 2048kB
     // Don't change this, not all parts of the program use this constant
@@ -313,9 +317,12 @@ public class VpnProfile implements Serializable, Cloneable {
             mConnectRetryMaxTime="300";
 
 
-        if (!mIsOpenVPN22)
-            cfg += "connect-retry " + mConnectRetry + " " + mConnectRetryMaxTime + "\n";
-        else if (mIsOpenVPN22 && mUseUdp)
+        // FIXME added in a3bf88b09e5e686f07efb305efedf71a13faf15c
+        // FIXME this is incompatible with the OVPN binary bundled currently
+        // FIXME update the binary to support
+//        if (!mIsOpenVPN22)
+//            cfg += "connect-retry " + mConnectRetry + " " + mConnectRetryMaxTime + "\n";
+//        else if (mIsOpenVPN22 && mUseUdp)
             cfg += "connect-retry " + mConnectRetry + "\n";
 
 
@@ -656,11 +663,15 @@ public class VpnProfile implements Serializable, Cloneable {
     }
 
     public void writeConfigFile(Context context) throws IOException {
+        String config = getConfigFile(context, false);
+        // avoid the single entry limit by logging line-by-line
+        for (String line : ("#####\n" + config + "\n#####").split("\n")) {
+            Log.i(TAG, line);
+        }
         FileWriter cfg = new FileWriter(VPNLaunchHelper.getConfigFilePath(context));
-        cfg.write(getConfigFile(context, false));
+        cfg.write(config);
         cfg.flush();
         cfg.close();
-
     }
 
     public Intent getStartServiceIntent(Context context) {
